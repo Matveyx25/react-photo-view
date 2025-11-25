@@ -71,7 +71,7 @@ export default function Photo({
 					<video 
 						className={`PhotoView__Photo${className ? ` ${className}` : ''}`}
 						src={src}
-						onLoad={handleVideoLoaded}
+						onLoadedMetadata={handleVideoLoaded}
 						onError={handleImageBroken}
 						draggable={false}
 						{...restProps}
