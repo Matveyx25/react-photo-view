@@ -37,6 +37,11 @@ export default function Photo({
   function handleImageLoaded(e: React.SyntheticEvent<HTMLImageElement>) {
 		const { naturalWidth, naturalHeight } = e.target as HTMLImageElement;
     if (mountedRef.current) {
+			console.log('image', {
+        loaded: true,
+        naturalWidth,
+        naturalHeight,
+      });
       onPhotoLoad({
         loaded: true,
         naturalWidth,
@@ -48,6 +53,12 @@ export default function Photo({
 	function handleVideoLoaded(e: React.SyntheticEvent<HTMLVideoElement>) {
 		const { videoWidth, videoHeight } = e.target as HTMLVideoElement;
     if (mountedRef.current) {
+			console.log('video', {
+        loaded: true,
+        naturalWidth: videoWidth,
+        naturalHeight: videoHeight,
+      });
+			
       onPhotoLoad({
         loaded: true,
         naturalWidth: videoWidth,
