@@ -65,22 +65,17 @@ export default function Photo({
   }
 
   if (src && !broken) {
-		if(isVideo){
-			return (
-				<>
-					<video 
-						className={`PhotoView__Photo${className ? ` ${className}` : ''}`}
-						src={src}
-						onLoadedMetadata={handleVideoLoaded}
-						onError={handleImageBroken}
-						draggable={false}
-						{...restProps}
-					></video>
-				</>
-			)
-		}else{
-				return (
-					<>
+		return (
+			<>
+				{isVideo ? 
+						<video 
+							className={`PhotoView__Photo${className ? ` ${className}` : ''}`}
+							src={src}
+							onLoadedMetadata={handleVideoLoaded}
+							onError={handleImageBroken}
+							draggable={false}
+							{...restProps}
+						></video> :
 						<img
 							className={`PhotoView__Photo${className ? ` ${className}` : ''}`}
 							src={src}
@@ -90,15 +85,15 @@ export default function Photo({
 							alt=""
 							{...restProps}
 						/>
-						{!loaded &&
-							(loadingElement ? (
-								<span className="PhotoView__icon">{loadingElement}</span>
-							) : (
-								<Spinner className="PhotoView__icon" />
-							))}
-					</>
-				);
-		}
+				}
+				{!loaded &&
+					(loadingElement ? (
+						<span className="PhotoView__icon">{loadingElement}</span>
+					) : (
+						<Spinner className="PhotoView__icon" />
+					))}
+			</>
+		);
   }
 
   if (brokenElement) {
