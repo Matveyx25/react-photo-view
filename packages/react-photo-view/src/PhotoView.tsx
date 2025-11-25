@@ -14,6 +14,8 @@ export interface PhotoViewProps {
   /**
    * 自定义渲染，优先级比 src 低
    */
+	isVideo?: boolean;
+
   render?: (props: PhotoRenderParams) => React.ReactNode;
   /**
    * 自定义覆盖节点
@@ -40,6 +42,7 @@ export interface PhotoViewProps {
 const PhotoView: React.FC<PhotoViewProps> = ({
   src,
   render,
+	isVideo,
   overlay,
   width,
   height,
@@ -89,6 +92,7 @@ const PhotoView: React.FC<PhotoViewProps> = ({
     photoContext.update({
       key,
       src,
+			isVideo,
       originRef,
       render: fn.render,
       overlay,

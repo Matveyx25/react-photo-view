@@ -13,6 +13,7 @@ export interface IPhotoLoadedParams {
 
 export interface IPhotoProps extends React.HTMLAttributes<HTMLElement> {
   src: string;
+	isVideo?: boolean;
   loaded: boolean;
   broken: boolean;
   onPhotoLoad: (params: IPhotoLoadedParams) => void;
@@ -22,6 +23,7 @@ export interface IPhotoProps extends React.HTMLAttributes<HTMLElement> {
 
 export default function Photo({
   src,
+	isVideo,
   loaded,
   broken,
   className,
@@ -33,12 +35,23 @@ export default function Photo({
   const mountedRef = useMountedRef();
 
   function handleImageLoaded(e: React.SyntheticEvent<HTMLImageElement>) {
-    const { naturalWidth, naturalHeight } = e.target as HTMLImageElement;
+		const { naturalWidth, naturalHeight } = e.target as HTMLImageElement;
     if (mountedRef.current) {
       onPhotoLoad({
         loaded: true,
         naturalWidth,
         naturalHeight,
+      });
+    }
+  }
+  
+	function handleVideoLoaded(e: React.SyntheticEvent<HTMLVideoElement>) {
+		const { videoWidth, videoHeight } = e.target as HTMLVideoElement;
+    if (mountedRef.current) {
+      onPhotoLoad({
+        loaded: true,
+        naturalWidth: videoWidth,
+        naturalHeight: videoHeight,
       });
     }
   }
@@ -52,25 +65,40 @@ export default function Photo({
   }
 
   if (src && !broken) {
-    return (
-      <>
-        <img
-          className={`PhotoView__Photo${className ? ` ${className}` : ''}`}
-          src={src}
-          onLoad={handleImageLoaded}
-          onError={handleImageBroken}
-          draggable={false}
-          alt=""
-          {...restProps}
-        />
-        {!loaded &&
-          (loadingElement ? (
-            <span className="PhotoView__icon">{loadingElement}</span>
-          ) : (
-            <Spinner className="PhotoView__icon" />
-          ))}
-      </>
-    );
+		if(isVideo){
+			return (
+				<>
+					<video 
+						className={`PhotoView__Photo${className ? ` ${className}` : ''}`}
+						src={src}
+						onLoad={handleVideoLoaded}
+						onError={handleImageBroken}
+						draggable={false}
+						{...restProps}
+					></video>
+				</>
+			)
+		}else{
+				return (
+					<>
+						<img
+							className={`PhotoView__Photo${className ? ` ${className}` : ''}`}
+							src={src}
+							onLoad={handleImageLoaded}
+							onError={handleImageBroken}
+							draggable={false}
+							alt=""
+							{...restProps}
+						/>
+						{!loaded &&
+							(loadingElement ? (
+								<span className="PhotoView__icon">{loadingElement}</span>
+							) : (
+								<Spinner className="PhotoView__icon" />
+							))}
+					</>
+				);
+		}
   }
 
   if (brokenElement) {

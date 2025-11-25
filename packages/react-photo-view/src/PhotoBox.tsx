@@ -122,7 +122,7 @@ const initialState = {
 };
 
 export default function PhotoBox({
-  item: { src, render, width: customWidth = 0, height: customHeight = 0, originRef },
+  item: { src, isVideo, render, width: customWidth = 0, height: customHeight = 0, originRef },
   visible,
   speed,
   easing,
@@ -458,6 +458,7 @@ export default function PhotoBox({
             src={src}
             loaded={loaded}
             broken={broken}
+						isVideo={isVideo}
             {...attrs}
             onPhotoLoad={handlePhotoLoad}
             loadingElement={loadingElement}

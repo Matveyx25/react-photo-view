@@ -12,6 +12,8 @@ export interface DataType {
    * 资源地址
    */
   src?: string;
+
+  isVideo?: boolean;
   /**
    * 自定义渲染，优先级比 src 低
    */
